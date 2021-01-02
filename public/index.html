@@ -1,0 +1,198 @@
+<head>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
+
+  <style>
+    body {
+      padding: 0px;
+      margin: 0px;
+    }
+
+    .mainGrid {
+      width: 100vw;
+      height: 100vh;
+      display: grid;
+
+      grid-template-rows: repeat(5, 1fr);
+      grid-template-columns: repeat(9, 1fr);
+    }
+
+    .box {
+      width: 100%;
+      height: 100%;
+      background-color: green;
+    }
+
+    .left-1 {
+      grid-row: 2 / 3;
+      grid-column: 3 / 4;
+    }
+
+    .left-2 {
+      grid-row: 3 / 4;
+      grid-column: 2 / 3;
+    }
+
+    .left-3 {
+      grid-row: 3 / 4;
+      grid-column: 4 / 5;
+    }
+
+    .left-4 {
+      grid-row: 4 / 5;
+      grid-column: 3 / 4;
+    }
+
+    .right-1 {
+      grid-row: 2 / 3;
+      grid-column: 7 / 8;
+    }
+
+    .right-2 {
+      grid-row: 3 / 4;
+      grid-column: 6 / 7;
+    }
+
+    .right-3 {
+      grid-row: 3 / 4;
+      grid-column: 8 / 9;
+    }
+
+    .right-4 {
+      grid-row: 4 / 5;
+      grid-column: 7 / 8;
+    }
+  </style>
+</head>
+
+<div class="mainGrid">
+  <div class="left-1 box"></div>
+  <div class="left-2 box"></div>
+  <div class="left-3 box"></div>
+  <div class="left-4 box"></div>
+
+  <div class="right-1 box"></div>
+  <div class="right-2 box"></div>
+  <div class="right-3 box"></div>
+  <div class="right-4 box"></div>
+</div>
+
+<script>
+  let left1 = document.querySelector(".left-1");
+  let left2 = document.querySelector(".left-2");
+  let left3 = document.querySelector(".left-3");
+  let left4 = document.querySelector(".left-4");
+
+  let right1 = document.querySelector(".right-1");
+  let right2 = document.querySelector(".right-2");
+  let right3 = document.querySelector(".right-3");
+  let right4 = document.querySelector(".right-4");
+
+  let socket = new WebSocket("ws://192.168.15.68:4040/ws");
+
+  left1.addEventListener("touchstart", () => {
+    if (!document.fullscreenElement) document.body.requestFullscreen();
+    window.navigator.vibrate(200);
+    socket.send("keydown y");
+  });
+
+  left1.addEventListener("touchend", () => {
+    socket.send("keyup y");
+  });
+
+  left2.addEventListener("touchstart", () => {
+    if (!document.fullscreenElement) document.body.requestFullscreen();
+    window.navigator.vibrate(200);
+    socket.send("keydown g");
+  });
+
+  left2.addEventListener("touchend", () => {
+    socket.send("keyup g");
+  });
+
+  left3.addEventListener("touchstart", () => {
+    if (!document.fullscreenElement) document.body.requestFullscreen();
+    window.navigator.vibrate(200);
+    socket.send("keydown j");
+  });
+
+  left3.addEventListener("touchend", () => {
+    socket.send("keyup j");
+  });
+
+  left4.addEventListener("touchstart", () => {
+    if (!document.fullscreenElement) document.body.requestFullscreen();
+    window.navigator.vibrate(200);
+    socket.send("keydown h");
+  });
+
+  left4.addEventListener("touchend", () => {
+    socket.send("keyup h");
+  });
+
+  right1.addEventListener("touchstart", () => {
+    if (!document.fullscreenElement) document.body.requestFullscreen();
+    window.navigator.vibrate(200);
+    socket.send("keydown o");
+  });
+
+  right1.addEventListener("touchend", () => {
+    socket.send("keyup o");
+  });
+
+  right2.addEventListener("touchstart", () => {
+    if (!document.fullscreenElement) document.body.requestFullscreen();
+    window.navigator.vibrate(200);
+    socket.send("keydown k");
+  });
+
+  right2.addEventListener("touchend", () => {
+    socket.send("keyup k");
+  });
+
+  right3.addEventListener("touchstart", () => {
+    if (!document.fullscreenElement) document.body.requestFullscreen();
+    window.navigator.vibrate(200);
+    socket.send("keydown p");
+  });
+
+  right3.addEventListener("touchend", () => {
+    socket.send("keyup p");
+  });
+
+  right4.addEventListener("touchstart", () => {
+    if (!document.fullscreenElement) document.body.requestFullscreen();
+    window.navigator.vibrate(200);
+    socket.send("keydown l");
+  });
+
+  right4.addEventListener("touchend", () => {
+    socket.send("keyup l");
+  });
+
+  socket.onopen = function (e) {
+    console.log("open");
+  };
+
+  socket.onmessage = function (event) {
+    console.log(`[message] Data received from server: ${event.data}`);
+  };
+
+  socket.onclose = function (event) {
+    if (event.wasClean) {
+      console.log(
+        `[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`
+      );
+    } else {
+      // e.g. server process killed or network down
+      // event.code is usually 1006 in this case
+      console.log("[close] Connection died");
+    }
+  };
+
+  socket.onerror = function (error) {
+    console.log(`[error] ${error.message}`);
+  };
+</script>
